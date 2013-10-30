@@ -1,4 +1,4 @@
-This Red Black Tree was implemented to load words into the tree and count. The tree also counts how many times there was an attempt to put the same word in the tree. This is a very efficient implementation of a program that counts how many times each word occurs in a file.
+This Red Black Tree was implemented to load words into the tree. The tree also counts how many times there was an attempt to put the same word in the tree. This is a very efficient implementation of a program that counts how many times each word occurs in a file.
 
 To run tests:
 make
