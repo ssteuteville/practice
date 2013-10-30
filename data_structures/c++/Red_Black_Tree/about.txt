@@ -1,0 +1,10 @@
+This Red Black Tree was implemented to load words into the tree and count. The tree also counts how many times there was an attempt to put the same word in the tree. This is a very efficient implementation of a program that counts how many times each word occurs in a file.
+
+To run tests:
+make
+./test_tree                (default)
+./test_tree tests/input*.txt     (* can be 1-5)
+
+You can redirect these to output files then vimdiff them against the corresponding output files in tests/
+
+The output/input files in test were provided by my teacher when the project was presented.
