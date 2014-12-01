@@ -1,4 +1,5 @@
 import bst
+from timeit import default_timer as timer
 class Node:
 	def __init__(self, data, color):
 		self.left = None
@@ -145,6 +146,14 @@ class Tree:
 			return -1
 		return max(lht, rht) + 1
 
+def tree_sort(l):
+	t = Tree()
+	for val in l:
+		t.insert(val)
+	l = []
+	tree.in_order_traversal(bst.to_list, {'l' : l})
+	return l
+
 
 if __name__ == "__main__":
 	tree = Tree()
@@ -158,3 +167,14 @@ if __name__ == "__main__":
 	assert(l == t)
 	assert(tree.find(5) == 5)
 	assert(tree.find(0) is None)
+	l = [5,4,3,2,1]
+	assert(tree_sort(l) == t)
+	start = timer()
+	l = tree_sort(l)
+	end = timer()
+	print("mine {0}".format(end - start))
+	l = [5,4,3,2,1]
+	start = timer()
+	l = sorted(l)
+	end = timer()
+	print("built in {0}".format(end - start))
