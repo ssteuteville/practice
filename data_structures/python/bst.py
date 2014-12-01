@@ -174,6 +174,8 @@ def rebalance_tree(tree):
 	if tree.height_if_balanced(tree.root) == -1:
 		temp = []
 		tree.in_order_traversal(to_list, {'l' : temp} )
+		tree.root = None
+		insert_sorted_list(tree, temp)
 
 
 def insert_sorted_list(tree, l):
@@ -202,6 +204,8 @@ if __name__ == "__main__":
 	tree.clear()
 	insert_list(tree, l)
 	assert(tree.height_if_balanced(tree.root) == -1)
+	rebalance_tree(tree)
+	assert(tree.height_if_balanced(tree.root) == 4)
 	tree.clear()
 	tree.insert(5)
 	tree.insert(6)
