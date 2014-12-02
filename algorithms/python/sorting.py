@@ -22,6 +22,18 @@ def merge(l1, l2):
 		l2.pop(0)
 	return l3
 
+def inserstion_sort(l):
+	for i in range(len(l)):
+		x = l[i]
+		j = i
+		while j > 0 and l[j - 1] > x:
+			l[j] = l[j-1]
+			j -=1
+		l[j] = x
+	return l
+
+
 if __name__ == "__main__":
 	l = [43,56,12,31,93, 45, 12, 32, 13, 123, 0, 4124]
 	assert(sorted(l) == merge_sort(l))
+	assert(sorted(l) == inserstion_sort(l))
