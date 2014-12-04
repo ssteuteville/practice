@@ -1,9 +1,7 @@
 def merge_sort(l):
-	if len(l) <= 1:
+	if len(l) < 2:
 		return l
-	l1 = merge_sort(l[0:len(l)//2])
-	l2 = merge_sort(l[len(l)//2:])
-	return merge(l1, l2)
+	return merge(merge_sort(l[:len(l)//2]), merge_sort(l[len(l)//2:]))
 
 def merge(l1, l2):
 	l3 = []
