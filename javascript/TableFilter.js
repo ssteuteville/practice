@@ -1,5 +1,6 @@
-﻿var TableFilter = (function () {
+﻿﻿var TableFilter = (function () {
     module = {}
+    //events
     module.Events = {}
     module.Events.doneTyping = (function () {
         var typingTimer;
@@ -23,25 +24,24 @@
         return instance;
     }());
 
-    //Case insensitve contains selector
-    jQuery.expr[':'].Contains = function (a, i, m) {
-        return jQuery(a).text().toUpperCase()
-            .indexOf(m[3].toUpperCase()) >= 0;
-    };
+    /* member methods */
+
 
     /*
-     * Makes a table filterable based on an input field
-     * inputId - The css id of the input field used to filter the table.
-     * tableBodyId - The css id of the tbody tag we are filtering.
-     * columns - An array of numbers that represent which columns should be considered when filtering. Can be null.
-     * event - The event that should fire the filter functionality (keyup, change, etc.).
-    */
+ * Makes a table filterable based on an input field
+ * inputId - The css id of the input field used to filter the table.
+ * tableBodyId - The css id of the tbody tag we are filtering.
+ * columns - An array of numbers that represent which columns should be considered when filtering. Can be null.
+ * event - The event that should fire the filter functionality (keyup, change, etc.).
+*/
     module.SetupIndexed = function (inputId, tableBodyId, columns, event) {
         if (event == null)
             event = "keyup";
-        else if (typeof event != 'string' && !(event instanceof String))
+        else if (typeof event != 'string' && !(event instanceof String)) {
             event.Event(inputId);
             event = event.name;
+        }
+
 
 
         $("#" + inputId).on(event, function () {
@@ -57,22 +57,29 @@
 
     }
 
-    function DefaultHandler(query)
-    {
-        return function (index, element){
-            if($(element).text().toUpperCase().indexOf(query.toUpperCase()) != -1)
-                return true
-            return false
-        }
-    }
-
-
-    module.SetupHandled = function (inputId, tableBodyId, handler, event){
+    //whenever the event is fired an ajax request is made to url. The url should have a parameter of 'query' which is the element at inputId's value.
+    module.SetupAjaxed = function (inputId, tableBodyId, url, event) {
         if (event == null)
             event = "keyup";
-        else if (typeof event != 'string' && !(event instanceof String))
+        else if (typeof event != 'string' && !(event instanceof String)) {
             event.Event(inputId);
             event = event.name;
+        }
+
+        $("#" + inputId).on(event, function () {
+            AjaxHandle(this.value, url, tableBodyId);
+        })
+
+    }
+
+    //Allows execution of a handler function to determine if row shoud be included.
+    module.SetupHandled = function (inputId, tableBodyId, handler, event) {
+        if (event == null)
+            event = "keyup";
+        else if (typeof event != 'string' && !(event instanceof String)) {
+            event.Event(inputId);
+            event = event.name;
+        }
 
         $("#" + inputId).on(event, function () {
             var rows = $("#" + tableBodyId).find("tr").hide();
@@ -82,10 +89,22 @@
             else {
                 rows.filter(DefaultHandler(this.value)).show().css('display', "");
             }
-    });
+        });
 
 
     }
+
+    /* Private Variables */
+    var last_request;
+
+    //Case insensitve contains selector
+    jQuery.expr[':'].Contains = function (a, i, m) {
+        return jQuery(a).text().toUpperCase()
+            .indexOf(m[3].toUpperCase()) >= 0;
+    };
+
+    /* Private Functions */
+
     /*
      * Builds a string to be used as a selector to specify selecting specific columns in a row.
      * columns - An array of numbers that represent which columns should be included.
@@ -100,6 +119,33 @@
         }
         return query;
     }
+
+    function AjaxHandle(query, url, tableBodyId) {
+        if (last_request) {
+            last_request.abort();
+            last_request = null;
+            console.log("request cancelled");
+        }
+        console.log("new request");
+        last_request = $.ajax({
+            url: url,
+            type: "GET",
+            data: { query: query },
+            dataType: "html",
+            success: function (data) {
+                $("#" + tableBodyId).replaceWith(data);
+                last_request = null;
+            }
+        });
+    }
+
+    function DefaultHandler(query) {
+        return function (index, element) {
+            if ($(element).text().toUpperCase().indexOf(query.toUpperCase()) != -1)
+                return true
+            return false
+        }
+    }
+
     return module;
 }());
-
