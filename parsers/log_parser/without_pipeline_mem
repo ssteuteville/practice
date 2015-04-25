@@ -1,0 +1,69 @@
+Only Searching in front of file:
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    63     13.4 MiB      0.0 MiB   @profile
+    64                             def doIt(f):
+    65                                 global printed
+    66     15.2 MiB      1.8 MiB       start_index = find_day(f.readlines(), int(start))
+    67     15.2 MiB      0.0 MiB       f.seek(0)
+    68     15.2 MiB      0.0 MiB       if args.type == 'hourly':
+    69     15.2 MiB      0.0 MiB           current_count = 0
+    70     15.2 MiB      0.0 MiB           prev_date = None
+    71    106.4 MiB     91.3 MiB           for line in f.readlines()[start_index:]:
+    72    106.4 MiB      0.0 MiB               date = datetime.strptime(re.search(time_stamp, line).group(0), '%d/%b/%Y:%H:%M:%S')
+    73    106.4 MiB      0.0 MiB               if prev_date is None or date.hour == prev_date.hour:
+    74    106.4 MiB      0.0 MiB                   current_count += 1
+    75                                         else:
+    76    106.4 MiB      0.0 MiB                   print(str(current_count) + '\t' + str(prev_date.date()) + " " + str(prev_date.hour) + ":00")
+    77    106.4 MiB      0.0 MiB                   printed += 1
+    78    106.4 MiB      0.0 MiB                   current_count = 1
+    79    106.4 MiB      0.0 MiB                   if date.day > int(end) or printed >= int(args.number):
+    80     15.4 MiB    -91.0 MiB                       break
+    81    106.4 MiB     91.0 MiB               prev_date = date
+
+Searching End of file:
+Line #    Mem usage    Increment   Line Contents
+================================================
+    63     13.4 MiB      0.0 MiB   @profile
+    64                             def doIt(f):
+    65                                 global printed
+    66     15.1 MiB      1.7 MiB       start_index = find_day(f.readlines(), int(start))
+    67     15.1 MiB      0.0 MiB       f.seek(0)
+    68     15.1 MiB      0.0 MiB       if args.type == 'hourly':
+    69     15.1 MiB      0.0 MiB           current_count = 0
+    70     15.1 MiB      0.0 MiB           prev_date = None
+    71     46.0 MiB     30.9 MiB           for line in f.readlines()[start_index:]:
+    72     46.0 MiB      0.0 MiB               date = datetime.strptime(re.search(time_stamp, line).group(0), '%d/%b/%Y:%H:%M:%S')
+    73     46.0 MiB      0.0 MiB               if prev_date is None or date.hour == prev_date.hour:
+    74     46.0 MiB      0.0 MiB                   current_count += 1
+    75                                         else:
+    76     46.0 MiB      0.0 MiB                   print(str(current_count) + '\t' + str(prev_date.date()) + " " + str(prev_date.hour) + ":00")
+    77     46.0 MiB      0.0 MiB                   printed += 1
+    78     46.0 MiB      0.0 MiB                   current_count = 1
+    79     46.0 MiB      0.0 MiB                   if date.day > int(end) or printed >= int(args.number):
+    80     15.5 MiB    -30.6 MiB                       break
+    81     46.0 MiB     30.6 MiB               prev_date = date
+
+End of file again:
+Line #    Mem usage    Increment   Line Contents
+================================================
+    63     13.4 MiB      0.0 MiB   @profile
+    64                             def doIt(f):
+    65                                 global printed
+    66     15.1 MiB      1.7 MiB       start_index = find_day(f.readlines(), int(start))
+    67     15.1 MiB      0.0 MiB       f.seek(0)
+    68     15.1 MiB      0.0 MiB       if args.type == 'hourly':
+    69     15.1 MiB      0.0 MiB           current_count = 0
+    70     15.1 MiB      0.0 MiB           prev_date = None
+    71     46.0 MiB     30.9 MiB           for line in f.readlines()[start_index:]:
+    72     46.0 MiB      0.0 MiB               date = datetime.strptime(re.search(time_stamp, line).group(0), '%d/%b/%Y:%H:%M:%S')
+    73     46.0 MiB      0.0 MiB               if prev_date is None or date.hour == prev_date.hour:
+    74     46.0 MiB      0.0 MiB                   current_count += 1
+    75                                         else:
+    76     46.0 MiB      0.0 MiB                   print(str(current_count) + '\t' + str(prev_date.date()) + " " + str(prev_date.hour) + ":00")
+    77     46.0 MiB      0.0 MiB                   printed += 1
+    78     46.0 MiB      0.0 MiB                   current_count = 1
+    79     46.0 MiB      0.0 MiB                   if date.day > int(end) or printed >= int(args.number):
+    80     15.4 MiB    -30.6 MiB                       break
+    81     46.0 MiB     30.6 MiB               prev_date = date
